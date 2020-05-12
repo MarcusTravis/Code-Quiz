@@ -1,82 +1,84 @@
-<!DOCTYPE html>
-<html lang="en-us">
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>Question Game</title>
-  <style>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Code Quiz</title>
+  <style>
+    .pb-100 {
+      padding-bottom: 100%;
+    }
   </style>
+
   </head>
 
-  <body>
-    <section id="quiz" class="display-none">
-      <section class="question-header">
-        <h2 id="questionTitle"></h2>
-        <div id="timerBox">
-          <p class="time-left">TIME LEFT</p>
-          <p id="timer"></p>
+  <body class= bg-warning>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 text-center pt-5 pb-100 bg-secondary">
+          <h1 class="text-center">Question Game</h1>
+          <div class="text-center" id="question-container">
+            <h1 id="question"></h1>
+            <div id="answers"></div>
+          </div>
+          <div class="text-center timer mt-3" id="timer"></div>
         </div>
-      </section>
-      <ul id="choicesList"></ul>
-      <div id="result" class="display-none">
-        <p id="resultText"></p>
+        <div class="col-md-3"></div>
       </div>
-    </section>
+    </div>
 
-    <section id="end" class="display-none">
-      <h2>CODE QUIZ!<span id="score"></span>.</h2>
-      <section class="form-container">
-        <form id="saveHighScore">
-          <h2>Save your score</h2>
-          <label for="initials">Enter your name:</label>
-          <input id="initials" type="text" />
-          <button type="submit">Save</button>
-        </form>
-      </section>
-      <section id="highScoreList" class="display-none">
-        <h2>Top 10 scores for this quiz:</h2>
-        <ol id="highScores"></ol>
-      </section>
-      <a href="./index.html"><button>Take Another Quiz</button></a>
-    </section>
-  </main>
-
-  
     <script>
-      const $score = document.getElementById("score");
-
+      // Variables to be used:
       // The array of questions for our quiz game.
       var questions = [
-        { q: "The sky is blue.", a: "t" },
-        { q: "There are 365 days in a year.", a: "t" },
-        { q: "There are 16 ounces in a pound.", a: "t" },
-        { q: "The Declaration of Independence was created in 1745.", a: "f" },
-        { q: "Bananas are vegetables.", a: "f" },
+        { question: "The sky is blue.", answers: ["True", "False"], correctAnswer: "True",},
+        { question: "There are 365 days in a year.", answers: ["True", "False"], correctAnswer: "True",},
+        { question: "There are 16 ounces in a pound.", answers: ["True", "False"], correctAnswer: "True",},
+        { question: "The Declaration of Independence was created in 1745.", answers: ["True", "False"], correctAnswer: "False",},
+        { question: "Bananas are not vegetables.", answers: ["True", "False"], correctAnswer: "True",},
       ];
-
-      // We start the game with a score of 0.
-      var score = 0;
-
-      // Loop over every question object
-      for (var i = 0; i < questions.length; i++) {
-        // Display current question to user and ask OK/Cancel
-        var answer = confirm(questions[i].q);
-
-        // Compare answers
-        if (
-          (answer === true && questions[i].a === "t") ||
-          (answer === false && questions[i].a === "f")
-        ) {
-          // Increase score
-          score++;
-          alert("Correct!");
-        } else {
-          alert("Wrong!");
+      var questionIndex = 0;
+      var time = 100;
+      var $timer = document.querySelector("#timer");
+      
+      $timer.textContent = time;
+      var timer = setInterval(function () {
+        time--;
+        $timer.textContent = time;                                            
+      }, 1000);
+      
+      function renderQuestion() {
+        var question = questions[questionIndex];
+        var $question = document.querySelector("#question");
+        var $answers = document.querySelector("#answers");
+        $question.textContent = question.question;
+        $answers.innerHTML = "";
+        
+        for (var i = 0; i < question.answers.length; i++) {
+          var $btn = document.createElement("button");
+          $btn.textContent = question.answers[i];
+          $btn.setAttribute("class", "btn btn-primary ml-3 mt-3 pl-5 pr-5");
+          $answers.append($btn);
         }
-      }
+      };
 
-      // Show total at end
-      alert("You got " + score + "/" + questions.length);
+      document
+       .querySelector("#answers")
+       .addEventListener("click", function(e) {
+         if (!e.target.matches("button")) return;
+         questionIndex++;
+         renderQuestion();
+        });
+      renderQuestion();
+        
+
     </script>
+
   </body>
 </html>
