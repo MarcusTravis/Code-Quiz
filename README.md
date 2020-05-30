@@ -23,12 +23,11 @@ This is a project posted to show my basic Javascript interval timing and dom man
 
 ### Prerequisites
 
-N/A
+Web browser and internet access.
 
 ### Installing
 
-Go to link to start quiz:<br> 
-https://marcustravis.github.io/Code-Quiz/
+N/A
 
 
 ## Running the tests
@@ -37,7 +36,8 @@ N/A
 
 ## Deployment
 
-N/A
+Go to link to start quiz:<br> 
+https://marcustravis.github.io/Code-Quiz/
 
 ## Built With
 
