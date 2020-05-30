@@ -6,6 +6,10 @@ questionContainer.appendChild(startButton);
 startButton.innerText = "Start";
 startButton.setAttribute("class", "bg-danger pl-5 pr-5 pt-3 pb-3 rounded h2");
 
+let counter = document.querySelector("#score");
+let score = localStorage.getItem("score");
+counter.textContent = score;
+
 startButton.addEventListener("click", function () {
   let body = document.getElementById("body");
   let containerFluid = document.getElementById("container-fluid");
@@ -95,6 +99,11 @@ startButton.addEventListener("click", function () {
       $btn.textContent = question.answers[i];
       $btn.setAttribute("class", "btn btn-primary ml-3 mt-3 pl-5 pr-5");
       $answers.append($btn);
+    }
+    if (questions.correctAnswer) {
+      score += 20;
+      counter.textContent = score;
+      localStorage.setItem("score", score);
     }
   }
 
