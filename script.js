@@ -1,14 +1,16 @@
 let questionContainer = document.getElementById("question-container");
-let startButton = document.createElement("button");
-let question = document.getElementById("question");
-let answers = document.getElementById("answers");
 questionContainer.appendChild(startButton);
+
+let question = document.getElementById("question");
+
+let startButton = document.createElement("button");
 startButton.innerText = "Start";
 startButton.setAttribute("class", "bg-danger pl-5 pr-5 pt-3 pb-3 rounded h2");
 
+let answers = document.getElementById("answers");
+
 let counter = document.querySelector("#score");
 let score = 0;
-// let score = parseInt(localStorage.getItem("score") || "0");
 counter.textContent = score;
 
 document.getElementById("currHighScore").innerHTML =
