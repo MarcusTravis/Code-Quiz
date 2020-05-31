@@ -33,45 +33,11 @@ startButton.addEventListener("click", function () {
   questionContainer.appendChild(question);
   questionContainer.appendChild(answers);
 
-  // Variables to be used:
-  // The array of questions for our quiz game.
-  let questions = [
-    {
-      question: "JavaScript is not an easy language to learn for beginners.",
-      answers: ["True", "False"],
-      correctAnswer: "True",
-    },
-    {
-      question: "Expressions, declarations, and constructors are all different types of JavaScript functions.",
-      answers: ["True", "False"],
-      correctAnswer: "True",
-    },
-    {
-      question: "If else and switch case are JavaScript conditionals.",
-      answers: ["True", "False"],
-      correctAnswer: "True",
-    },
-    {
-      question: "Improperly coded loops can run forever and crash your computer.",
-      answers: ["True", "False"],
-      correctAnswer: "True",
-    },
-    {
-      question: "Brendan Eich invented JavaScript.",
-      answers: ["True", "False"],
-      correctAnswer: "True",
-    },
-  ];
-
-  //TODO: add effect for correct or wrong button click
-  //TODO: add score count
-  //TODO: restart quiz and add name for high score
-  //TODO: add save info function
 
   //variables created for timer
   let questionIndex = 0;
   let timerDiv = document.querySelector("#timer");
-  let time = 100;
+  let time = 60;
   //decrements time from time variable created above
 
   timerDiv.textContent = time;
@@ -82,14 +48,38 @@ startButton.addEventListener("click", function () {
 
     //added stop timer conditional
     //added clearInterval
-    if (time === 0) {
+    if (time <= 0) {
       clearInterval(timer);
+      timerDiv.textContent = "";
+      num = 5;
+      document.querySelector("#question").innerHTML = questions[5].question;
     }
   }, 1000);
-  
-  let num = 0;
+
+  document.querySelector("#answers").addEventListener("click", function (e) {
+    if (!e.target.matches("button")) return;
+    questionIndex++;
+    renderQuestion();
+    if (e.target.textContent === questions[num].correctAnswer) {
+      score += 20;
+      counter.textContent = score;
+      if (score > localStorage.getItem("highScore")) {
+        localStorage.setItem("highScore", score);
+      }
+    } else if (time > 0) {
+      time = time - 20;
+      console.log("time: ", time);
+    }
+  });
+
+
+  let num = -1;
   function renderQuestion() {
     num++;
+    console.log("round num:", num);
+    if (num === 5) {
+      time = 1;
+    }
 
     let question = questions[questionIndex];
     let $question = document.querySelector("#question");
@@ -105,18 +95,41 @@ startButton.addEventListener("click", function () {
     }
   }
 
-  document.querySelector("#answers").addEventListener("click", function (e) {
-    if (!e.target.matches("button")) return;
-    questionIndex++;
-    renderQuestion();
-    console.log(e);
-    if (e.target.textContent === questions[num].correctAnswer) {
-      console.log(questions[num].correctAnswer);
-      score += 20;
-      console.log("score:",score);
-      counter.textContent = score;
-      localStorage.setItem("score", score);
-    }
-  });
+
+
+  let questions = [
+    {
+      question: "JavaScript is not an easy language to learn for beginners.",
+      answers: ["True", "False"],
+      correctAnswer: "True",
+    },
+    {
+      question:
+        "Expressions, declarations, and constructors are all different types of JavaScript functions.",
+      answers: ["True", "False"],
+      correctAnswer: "True",
+    },
+    {
+      question: "If else and switch case are JavaScript conditionals.",
+      answers: ["True", "False"],
+      correctAnswer: "True",
+    },
+    {
+      question:
+        "Improperly coded loops can run forever and crash your computer.",
+      answers: ["True", "False"],
+      correctAnswer: "True",
+    },
+    {
+      question: "Brendan Eich invented JavaScript.",
+      answers: ["True", "False"],
+      correctAnswer: "True",
+    },
+    {
+      question: "Done! Your highest score is: " + localStorage.getItem("highScore"),
+      answers: [],
+      correctAnswer: "True",
+    },
+  ];
   renderQuestion();
 });
