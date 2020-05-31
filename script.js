@@ -51,7 +51,6 @@ startButton.addEventListener("click", function () {
     if (time <= 0) {
       clearInterval(timer);
       timerDiv.textContent = "";
-      num = 5;
       document.querySelector("#question").innerHTML = questions[5].question;
     }
   }, 1000);
