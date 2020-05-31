@@ -7,8 +7,12 @@ startButton.innerText = "Start";
 startButton.setAttribute("class", "bg-danger pl-5 pr-5 pt-3 pb-3 rounded h2");
 
 let counter = document.querySelector("#score");
-let score = parseInt(localStorage.getItem("score") || "0");
+let score = 0;
+// let score = parseInt(localStorage.getItem("score") || "0");
 counter.textContent = score;
+
+document.getElementById("currHighScore").innerHTML =
+  "High score: " + localStorage.getItem("highScore");
 
 startButton.addEventListener("click", function () {
   let body = document.getElementById("body");
@@ -28,11 +32,10 @@ startButton.addEventListener("click", function () {
   questionContainer.setAttribute("class", "text-center");
   divRight.setAttribute("class", "col-md-3");
 
-  h1.innerText = "Go!";
+  h1.innerHTML = "High score: " + localStorage.getItem("highScore") + "<br>Go!";
   questionContainer.innerHTML = "";
   questionContainer.appendChild(question);
   questionContainer.appendChild(answers);
-
 
   //variables created for timer
   let questionIndex = 0;
@@ -51,33 +54,42 @@ startButton.addEventListener("click", function () {
     if (time <= 0) {
       clearInterval(timer);
       timerDiv.textContent = "";
+      updateHist()
       document.querySelector("#question").innerHTML = questions[5].question;
     }
   }, 1000);
 
+  function updateHist() {
+    if (score >= localStorage.getItem("highScore")) {
+      localStorage.setItem("highScore", score);
+    }
+  };
+
   document.querySelector("#answers").addEventListener("click", function (e) {
+    h1.innerHTML = "High score: " + localStorage.getItem("highScore") + "<br>Go!";
     if (!e.target.matches("button")) return;
-    questionIndex++;
-    renderQuestion();
+    // localStorage.setItem("highScore", score);
     if (e.target.textContent === questions[num].correctAnswer) {
       score += 20;
+      updateHist()
       counter.textContent = score;
-      if (score > localStorage.getItem("highScore")) {
-        localStorage.setItem("highScore", score);
-      }
+      h1.innerHTML = "High score: " + localStorage.getItem("highScore") + "<br>Go!";
     } else if (time > 0) {
       time = time - 20;
-      console.log("time: ", time);
     }
+    questionIndex++;
+    renderQuestion();
   });
-
 
   let num = -1;
   function renderQuestion() {
     num++;
     console.log("round num:", num);
-    if (num === 5) {
+    if (num == 5) {
       time = 1;
+      document.getElementById("questions").innerHTML = localStorage.getItem(
+        "highScore"
+      );
     }
 
     let question = questions[questionIndex];
@@ -93,8 +105,6 @@ startButton.addEventListener("click", function () {
       $answers.append($btn);
     }
   }
-
-
 
   let questions = [
     {
@@ -125,10 +135,11 @@ startButton.addEventListener("click", function () {
       correctAnswer: "True",
     },
     {
-      question: "Done! Your highest score is: " + localStorage.getItem("highScore"),
+      question: "Done!",
       answers: [],
       correctAnswer: "True",
     },
   ];
+  updateHist()
   renderQuestion();
 });
