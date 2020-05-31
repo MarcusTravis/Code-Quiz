@@ -14,28 +14,36 @@ counter.textContent = score;
 document.getElementById("currHighScore").innerHTML =
   "High score: " + localStorage.getItem("highScore");
 
+
+
 startButton.addEventListener("click", function () {
+
   let body = document.getElementById("body");
-  let containerFluid = document.getElementById("container-fluid");
-  let divLeft = document.getElementById("divLeft");
-  let divMid = document.getElementById("divMid");
-  let divRight = document.getElementById("divRight");
-  let h1 = document.getElementById("h1");
-  let questionContainer = document.getElementById("question-container");
-
   body.setAttribute("class", "bg-danger");
-  containerFluid.setAttribute("class", "container-fluid");
-  divLeft.setAttribute("class", "col-md-3");
-  divMid.setAttribute("class", "col-md-6 text-center pt-5 bg-secondary");
-  divMid.setAttribute("style", "position:fixed; bottom:0px; height: 100%;");
-  h1.setAttribute("class", "text-center");
-  questionContainer.setAttribute("class", "text-center");
-  divRight.setAttribute("class", "col-md-3");
 
-  h1.innerHTML = "High score: " + localStorage.getItem("highScore") + "<br>Go!";
-  questionContainer.innerHTML = "";
-  questionContainer.appendChild(question);
-  questionContainer.appendChild(answers);
+      let containerFluid = document.getElementById("container-fluid");
+      containerFluid.setAttribute("class", "container-fluid");
+  
+          let divLeft = document.getElementById("divLeft");
+          divLeft.setAttribute("class", "col-md-3");
+          
+          let divMid = document.getElementById("divMid");
+          divMid.setAttribute("class", "col-md-6 text-center pt-5 bg-secondary");
+          divMid.setAttribute("style", "position:fixed; bottom:0px; height: 100%;");
+
+              let h1 = document.getElementById("h1");
+              h1.setAttribute("class", "text-center");
+              h1.innerHTML = "High score: " + localStorage.getItem("highScore") + "<br>Go!";
+
+              let questionContainer = document.getElementById("question-container");
+              questionContainer.setAttribute("class", "text-center");
+              questionContainer.innerHTML = "";
+              questionContainer.appendChild(question);
+              questionContainer.appendChild(answers);
+
+          let divRight = document.getElementById("divRight");
+          divRight.setAttribute("class", "col-md-3");
+
 
   //variables created for timer
   let questionIndex = 0;
@@ -137,7 +145,7 @@ startButton.addEventListener("click", function () {
     {
       question: "Done!",
       answers: [],
-      correctAnswer: "True",
+      correctAnswer: "",
     },
   ];
   updateHist()
