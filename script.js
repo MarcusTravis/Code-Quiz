@@ -7,7 +7,7 @@ startButton.innerText = "Start";
 startButton.setAttribute("class", "bg-danger pl-5 pr-5 pt-3 pb-3 rounded h2");
 
 let counter = document.querySelector("#score");
-let score = localStorage.getItem("score");
+let score = parseInt(localStorage.getItem("score") || "0");
 counter.textContent = score;
 
 startButton.addEventListener("click", function () {
@@ -37,27 +37,27 @@ startButton.addEventListener("click", function () {
   // The array of questions for our quiz game.
   let questions = [
     {
-      question: "The sky is blue.",
+      question: "JavaScript is not an easy language to learn for beginners.",
       answers: ["True", "False"],
       correctAnswer: "True",
     },
     {
-      question: "There are 365 days in a year.",
+      question: "Expressions, declarations, and constructors are all different types of JavaScript functions.",
       answers: ["True", "False"],
       correctAnswer: "True",
     },
     {
-      question: "There are 16 ounces in a pound.",
+      question: "If else and switch case are JavaScript conditionals.",
       answers: ["True", "False"],
       correctAnswer: "True",
     },
     {
-      question: "The Declaration of Independence was created in 1745.",
+      question: "Improperly coded loops can run forever and crash your computer.",
       answers: ["True", "False"],
-      correctAnswer: "False",
+      correctAnswer: "True",
     },
     {
-      question: "Bananas are not vegetables.",
+      question: "Brendan Eich invented JavaScript.",
       answers: ["True", "False"],
       correctAnswer: "True",
     },
@@ -86,8 +86,11 @@ startButton.addEventListener("click", function () {
       clearInterval(timer);
     }
   }, 1000);
-
+  
+  let num = 0;
   function renderQuestion() {
+    num++;
+
     let question = questions[questionIndex];
     let $question = document.querySelector("#question");
     let $answers = document.querySelector("#answers");
@@ -100,17 +103,20 @@ startButton.addEventListener("click", function () {
       $btn.setAttribute("class", "btn btn-primary ml-3 mt-3 pl-5 pr-5");
       $answers.append($btn);
     }
-    if (questions.correctAnswer) {
-      score += 20;
-      counter.textContent = score;
-      localStorage.setItem("score", score);
-    }
   }
 
   document.querySelector("#answers").addEventListener("click", function (e) {
     if (!e.target.matches("button")) return;
     questionIndex++;
     renderQuestion();
+    console.log(e);
+    if (e.target.textContent === questions[num].correctAnswer) {
+      console.log(questions[num].correctAnswer);
+      score += 20;
+      console.log("score:",score);
+      counter.textContent = score;
+      localStorage.setItem("score", score);
+    }
   });
   renderQuestion();
 });
